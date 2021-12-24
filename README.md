@@ -1,6 +1,6 @@
 # EventhubHandler
 
-handler for python logging library. You can push you logs to Azure Event Hub.
+handler for python logging library. You can push you logs to Azure Event Hub. This handler creates separate thread to push logs to event hub.
 
 ## Installation
 
@@ -44,7 +44,7 @@ If you want to add something in each log like **applicationName** then add like 
 
 ```python
 formatter = JSONFormatter({"level": "levelname",
-                           "applicationName": ""})  # keep empty key 
+                           "applicationName": ""})  # keep empty value 
 
 # remember to add env variable `applicationName` with appropriate value
 ```
