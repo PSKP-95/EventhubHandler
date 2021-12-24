@@ -19,6 +19,9 @@ Handler reads settings from environment variables.
 
 ```python
 import logging
+from EventhubHandler.handler import EventHubHandler
+from EventhubHandler.formatter import JSONFormatter
+
 logger = logging.getLogger()
 
 eh = EventHubHandler()
