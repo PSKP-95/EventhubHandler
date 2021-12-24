@@ -1,6 +1,6 @@
 # EventhubHandler
 
-handler for python logging library. You can push you logs to Azure Event Hub. This handler creates separate thread to push logs to event hub.
+handler for python logging library. You can push application logs to Azure Event Hub. This handler creates separate thread to push logs to event hub. For more info, check [cost efficient logging solution in azure using event hub and azure data explorer](https://avabodha.in/cost-efficient-logging-solution-in-azure-using-event-hub-and-azure-data-explorer/)
 
 ## Installation
 
