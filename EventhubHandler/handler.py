@@ -28,6 +28,9 @@ class EventHubHandler(logging.StreamHandler):
         self.logThread.start()
 
     def emit(self, record: logging.LogRecord):
+        '''
+        Put logs in logQueue
+        '''
         try:
             msg = self.format(record)
             self.logQueue.put(msg)
@@ -46,10 +49,11 @@ class EventHubHandler(logging.StreamHandler):
             # Create a batch.
             event_data_batch = await producer.create_batch()
 
-            # Add events to the batch.
+            # take max bulk_size logs
             counter = self.bulk_size
             sendFlag = False
             
+            # Add events to the batch.
             while not self.logQueue.empty() and counter > 0:
                 sendFlag = True
                 log = self.logQueue.get()
@@ -57,11 +61,16 @@ class EventHubHandler(logging.StreamHandler):
                 counter = counter - 1
 
             # Send the batch of events to the event hub. 
+            # Send only if logs are available. Don't create unnessary connection
+            # I don't know send_batch create it or not
             if sendFlag:       
                 await producer.send_batch(event_data_batch)
         
 
     def threadLoop(self):
+        '''
+        Separate thread in infinite loop and checks logs after every freq seconds
+        '''
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         while True:
@@ -69,5 +78,8 @@ class EventHubHandler(logging.StreamHandler):
             time.sleep(self.freq)
 
     def closeProgram(self, msg: str):
+        '''
+        Print error message and close program.
+        '''
         print(msg)
         exit(1)
